@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Head from "next/head";
-import { Navbar, Nav, Form, InputGroup, FormControl } from "react-bootstrap";
+import { Navbar, Nav, Form, InputGroup, FormControl, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
                 <title>BookConnect</title>
             </Head>
             <Navbar bg="light" expand="lg" className="p-4 d-lg-flex">
-                <Navbar.Brand href="/">BookConnect</Navbar.Brand>
+                <Navbar.Brand href="#"><Image src='/images/logoprincipal.png'/></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className="d-lg-flex flex-grow-1">
                     <Nav className="mr-auto"></Nav>
