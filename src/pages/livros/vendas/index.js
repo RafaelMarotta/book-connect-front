@@ -81,14 +81,6 @@ function App() {
               <input type="text" id="titulo" name="titulo" value={formData.titulo} onChange={handleInputChange} required />
             </div>
             <div className="livro-info">
-              <label htmlFor="tipoEntrega">Tipo de Entrega:</label>
-              <select id="tipoEntrega" name="tipoEntrega" value={formData.tipoEntrega} onChange={handleInputChange} required>
-                <option value="">Selecione</option>
-                <option value="presencial">Presencial</option>
-                <option value="correios">Correios</option>
-              </select>
-            </div>
-            <div className="livro-info">
               <label htmlFor="preco">Preço:</label>
               <input type="text" id="preco" name="preco" value={formData.preco} onChange={handleInputChange} required />
             </div>
