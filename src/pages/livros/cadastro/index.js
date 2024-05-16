@@ -12,7 +12,7 @@ export default function Cadastro() {
     setImages(imageList);
   };
   return (
-    <div className='container'>
+    <div className='container border p-3 mt-3 w-md-50 w-100'>
       <h2 className='mb-3 mt-2'>Adicione um Livro</h2>
       <Form>
         <Form.Group className="mb-3" controlId="bookForm.title">
@@ -118,10 +118,7 @@ export default function Cadastro() {
             />
           </div>
         </div>
-        <hr />
-        <div className='d-flex justify-content-end'>
-          <Button variant="primary" className='col-md-3'>Adicionar Livro</Button>
-        </div>
+          <Button variant="primary" className='col-12'>Adicionar Livro</Button>
       </Form>
     </div>
   );

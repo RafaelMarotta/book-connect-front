@@ -1,19 +1,24 @@
-import dynamic from 'next/dynamic';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
-import { Container, Row } from 'react-bootstrap';
+const IndexPage = () => {
+    const router = useRouter();
 
-const BookCard = dynamic(() => import('../components/BookCard'), { ssr: false });
+    useEffect(() => {
+        // Redirect to /login
+        const redirectToLogin = () => {
+            router.push('/login');
+        };
 
-export default function Index() {
-  return (
-    <div className='container'>
-      <div className='row'>
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-      </div>
-    </div>
-  );
-}
+        // Call the redirect function
+        redirectToLogin();
+    }, []);
+
+    return (
+        <div>
+            <h1>Carregando ...</h1>
+        </div>
+    );
+};
+
+export default IndexPage;

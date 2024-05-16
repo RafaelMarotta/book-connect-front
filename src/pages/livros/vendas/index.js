@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './App.css'; // Use caminho relativo
+import './vendas.css'; // Use caminho relativo
+import { Button } from 'react-bootstrap';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,7 +71,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div>
       <main>
         <section className="venda">
           <h2>Detalhes da Venda do Livro</h2>
@@ -107,7 +108,7 @@ function App() {
                 Presencial
               </label>
             </div>
-            <button type="submit">Registrar Venda</button>
+            <Button type="submit" variant="primary">Registrar Venda</Button>
           </form>
         </section>
       </main>
@@ -142,7 +143,7 @@ function App() {
                 <label htmlFor="cidade">Cidade:</label>
                 <input type="text" id="cidade" name="endereco.cidade" value={formData.endereco.cidade} onChange={handleInputChange} required />
               </div>
-              <button type="submit">Salvar Endereço</button>
+              <Button type="submit" variant="primary">Salvar Endereço</Button>
             </form>
           </div>
         </div>

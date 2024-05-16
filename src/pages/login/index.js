@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import './loginstyle.css';
+import './login.css';
+import { useRouter } from 'next/router';
 
 
-function Login() {
+function Login({ Component, pageProps }) {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
@@ -27,14 +29,13 @@ function Login() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      console.log('Login successful!');
-      href="/index"; //voltar a home
+      router.push('/home');
     }
   };
 
   return (
     <div className="login-container">
-      <img src='/images/login.png' alt="logo login"/>
+      <img src='/images/login.png' alt="logo login" />
       <h5>Faça seu login no BookConnect</h5>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -59,17 +60,10 @@ function Login() {
           />
           {errors.password && <p className="error-message">{errors.password}</p>}
         </div>
-        <h6>
-        <a href="/pages/cadastro.js">Esqueceu sua senha?</a>
-      </h6>
         <button type="submit" href="/pages/index" className="login-button">
           Entrar
         </button>
       </form>
-      <p>ou</p>
-      <div class="create-account-link">
-      <a href="cadastro.html">Ainda não tem conta? Crie sua conta</a>
-    </div>
     </div>
   );
 }

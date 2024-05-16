@@ -94,22 +94,6 @@ main {
   color: #555;
 }
 
-button[type="submit"] {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 100%;
-}
-
-button[type="submit"]:hover {
-  background-color: #45a049;
-}
-
 footer {
   background-color: #4CAF50;
   color: white;
