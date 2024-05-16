@@ -1,0 +1,84 @@
+
+  
+  /* login box */
+  .login-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 7px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 100%;
+    margin-top: 60px;
+    margin-left: 38%;
+  }
+  
+  /* login title */
+  .login-container h5 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  /* Form */
+  .login-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Input fields */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .error-input {
+    border: 1px solid red;
+  }
+  
+  /* Error messages */
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  /* Login button */
+  .login-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Create account link */
+  .create-account-link {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .create-account-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  p{
+    text-align: center;
+    margin-top: 6%;
+  }
