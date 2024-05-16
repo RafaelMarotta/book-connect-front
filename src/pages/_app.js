@@ -1,22 +1,31 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Head from "next/head";
-import { Navbar, Nav, Form, InputGroup, FormControl } from "react-bootstrap";
+import { Navbar, Nav, Form, InputGroup, FormControl, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
+    const router = useRouter();
+
+    function handleSearch(event) {
+        event.preventDefault(); // Prevents the default form submission
+        router.push('/home');
+    }
+
     return (
         <>
             <Head>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <title>BookConnect</title>
             </Head>
-            <Navbar bg="light" expand="lg" className="p-4 d-lg-flex">
-                <Navbar.Brand href="/">BookConnect</Navbar.Brand>
+            {router.pathname !== '/login' && (
+            <Navbar bg="light" expand="lg" className="p-4 d-lg-flex book-navbar">
+                <Navbar.Brand href="/home"><Image src='/images/logoprincipal.png' /></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className="d-lg-flex flex-grow-1">
                     <Nav className="mr-auto"></Nav>
-                    <Form className="d-lg-flex justify-content-lg-center flex-grow-1">
+                    <Form className="d-lg-flex justify-content-lg-center flex-grow-1" onSubmit={handleSearch}>
                         <InputGroup className='w-50'>
                             <FormControl
                                 type="text"
@@ -32,7 +41,7 @@ function MyApp({ Component, pageProps }) {
                                 background: 'none',
                                 color: '#495057'
                             }}>
-                                <button style={{ border: 'none', background: 'none' }}><FontAwesomeIcon icon={faSearch} /></button>
+                                <button type="submit" style={{ border: 'none', background: 'none' }}><FontAwesomeIcon icon={faSearch} /></button>
                             </InputGroup.Text>
                         </InputGroup>
                     </Form>
@@ -44,7 +53,8 @@ function MyApp({ Component, pageProps }) {
                         <Nav.Link href="/enderecos/cadastro">Endereços</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
-            </Navbar>
+            </Navbar>)
+            }
             <main className='container-fluid'>
                 <Component {...pageProps} />
             </main>
