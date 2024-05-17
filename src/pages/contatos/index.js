@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { faEdit, faRemove } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function Index() {
     return (
@@ -9,13 +10,25 @@ export default function Index() {
                     <table id="table-clientes" class="table table-striped">
                         <thead>
                             <tr>
+                                <th scope="col">#</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Telefone</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">#</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {/* Aqui os dados da tabela serão preenchidos dinamicamente com JavaScript */}
+                            <tr>
+                                <td className='pointer' style={{ cursor: "pointer" }}>
+                                    <FontAwesomeIcon icon={faEdit} color='blue' className='pointer' />
+                                </td>
+                                <th scope="row">1</th>
+                                <td>João da Silva</td>
+                                <td>(11) 99999-9999</td>
+                                <td style={{ cursor: "pointer" }}>
+                                    <FontAwesomeIcon icon={faRemove} color='red' className='pointer' />
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
