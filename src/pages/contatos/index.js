@@ -2,16 +2,25 @@ import Link from "next/link";
 
 export default function Index() {
     return (
-        <div>
-            <section className="border border-primary">
-                <h1>Listagem de Contatos</h1>
-            </section>
-            <section className="border border-dark mt-2">
-                <div className="row">
-                    <Link href="/contatos/cadastro" className="col-6">Cadastrar Novo Contato</Link>
-                    <Link href="/enderecos/cadastro" className="col-6">Cadastrar Novo Endereço</Link>
+        <div className="container m-3 p-3">
+            <a href="/contatos/cadastro" className="btn btn-primary">Cadastrar</a>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="table-clientes" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Telefone</th>
+                                <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {/* Aqui os dados da tabela serão preenchidos dinamicamente com JavaScript */}
+                        </tbody>
+                    </table>
                 </div>
-            </section>
+            </div>
         </div>
     );
+
 }
