@@ -1,24 +1,18 @@
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
-const IndexPage = () => {
-    const router = useRouter();
 
-    useEffect(() => {
-        // Redirect to /login
-        const redirectToLogin = () => {
-            router.push('/login');
-        };
+function Index({ Component, pageProps }) {
+  const router = useRouter();
 
-        // Call the redirect function
-        redirectToLogin();
-    }, []);
+  const handleLoadLoginPage = () => {
+    router.push("/login")
+  };
 
-    return (
-        <div>
-            <h1>Carregando ...</h1>
-        </div>
-    );
-};
+  return (
+    <div onLoad={handleLoadLoginPage()}>
+    </div>
+  );
+}
 
-export default IndexPage;
+export default Index;
