@@ -1,148 +1,224 @@
-import React, { useState } from 'react';
-import './vendas.css'; // Use caminho relativo
-import { Button } from 'react-bootstrap';
+import { useRouter } from 'next/router';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Modal } from 'react-bootstrap';
+import { NumericFormat } from 'react-number-format';
+import ReactLoading from 'react-loading';
 
-function App() {
+export default function Vendas() {
+  const router = useRouter();
+  const { id_book, id } = router.query;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    titulo: '',
-    tipoEntrega: '',
-    preco: '',
-    telefone: '',
-    modoVendaOnline: false,
-    modoVendaPresencial: false,
-    endereco: {
-      rua: '',
-      numero: '',
-      cep: '',
-      bairro: '',
-      estado: '',
-      cidade: '',
-    },
+  const [loading, setLoading] = useState(false);
+  const [titulo, setTitulo] = useState('');
+  const [preco, setPreco] = useState('');
+  const [vendaOnline, setVendaOnline] = useState(false);
+  const [endereco, setEndereco] = useState({
+    rua: '',
+    numero: '',
+    cep: '',
+    bairro: '',
+    estado: '',
+    cidade: '',
   });
 
-  const handleInputChange = (event) => {
-    const { name, value, checked, type } = event.target;
-    if (name.startsWith('endereco')) {
-      const fieldName = name.split('.')[1];
-      setFormData((prevState) => ({
-        ...prevState,
-        endereco: {
-          ...prevState.endereco,
-          [fieldName]: value,
-        },
-      }));
-    } else if (type === 'checkbox') {
-      setFormData((prevState) => ({
-        ...prevState,
-        [name]: checked,
-      }));
-      if (name === 'modoVendaOnline' && checked) {
-        setIsModalOpen(true);
+  useEffect(() => {
+    // Fetch existing book details if id_book is present
+    const fetchBook = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`https://book-connect-backend.vercel.app/api/livros/${id_book}`);
+        const body = await response.json();
+        setTitulo(body.titulo);
+        setPreco(body.preco_estimado.toString());
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching book:', error);
+        setLoading(false);
       }
+    };
+
+    if (id_book) {
+      fetchBook();
+    }
+  }, [id_book]);
+
+  const handlePrecoChange = (values) => {
+    const { value } = values;
+    setPreco(value);
+  };
+
+  const handleVendaOnlineChange = (event) => {
+    const { value } = event.target;
+    if (value === 'Sim') {
+      setVendaOnline(true);
+      setIsModalOpen(true);
     } else {
-      setFormData((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
+      setVendaOnline(false);
     }
   };
 
-  const handleTelefoneChange = (event) => {
-    const { value } = event.target;
-    const numeroApenas = value.replace(/\D/g, '');
-    setFormData((prevState) => ({
+  const handleEnderecoChange = (event) => {
+    const { name, value } = event.target;
+    setEndereco((prevState) => ({
       ...prevState,
-      telefone: numeroApenas,
+      [name]: value,
     }));
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setFormData((prevState) => ({
-      ...prevState,
-      modoVendaOnline: false,
-    }));
+    setVendaOnline(false);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = {
+      titulo,
+      preco,
+      vendaOnline,
+      endereco,
+    };
     console.log('Form data:', formData);
+
+    // Perform the form submission here
   };
 
-  return (
-    <div>
-      <main>
-        <section className="venda">
-          <h2>Detalhes da Venda do Livro</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="livro-info">
-              <label htmlFor="titulo">Título:</label>
-              <input type="text" id="titulo" name="titulo" value={formData.titulo} onChange={handleInputChange} required />
-            </div>
-            <div className="livro-info">
-              <label htmlFor="preco">Preço:</label>
-              <input type="text" id="preco" name="preco" value={formData.preco} onChange={handleInputChange} required />
-            </div>
-            <div className="livro-info">
-              <label htmlFor="telefone">Telefone do Comprador:</label>
-              <input type="text" id="telefone" name="telefone" value={formData.telefone} onChange={handleTelefoneChange} required />
-              <small>Somente números são permitidos.</small>
-            </div>
-            <div className="livro-info checkbox-group">
-              <label>
-              <label htmlFor="telefone">Modo de venda</label>
-                <input type="checkbox" id="modoVendaOnline" name="modoVendaOnline" checked={formData.modoVendaOnline} onChange={handleInputChange} />
-                Online
-              </label>
-              <label>
-                <input type="checkbox" id="modoVendaPresencial" name="modoVendaPresencial" checked={formData.modoVendaPresencial} onChange={handleInputChange} />
-                Presencial
-              </label>
-            </div>
-            <Button type="submit" variant="primary">Registrar Venda</Button>
-          </form>
-        </section>
-      </main>
-
-      {isModalOpen && (
-        <div id="modal-endereco" className={`modal ${isModalOpen ? 'show' : ''}`} onClick={(event) => event.target.className === 'modal show' && closeModal()}>
-          <div className="modal-content">
-            <span className="close" onClick={closeModal}>&times;</span>
-            <h2>Endereço do Comprador</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="modal-info">
-                <label htmlFor="rua">Nome da Rua:</label>
-                <input type="text" id="rua" name="endereco.rua" value={formData.endereco.rua} onChange={handleInputChange} required />
-              </div>
-              <div className="modal-info">
-                <label htmlFor="numero">Número:</label>
-                <input type="text" id="numero" name="endereco.numero" value={formData.endereco.numero} onChange={handleInputChange} required />
-              </div>
-              <div className="modal-info">
-                <label htmlFor="cep">CEP:</label>
-                <input type="text" id="cep" name="endereco.cep" value={formData.endereco.cep} onChange={handleInputChange} required />
-              </div>
-              <div className="modal-info">
-                <label htmlFor="bairro">Bairro:</label>
-                <input type="text" id="bairro" name="endereco.bairro" value={formData.endereco.bairro} onChange={handleInputChange} required />
-              </div>
-              <div className="modal-info">
-                <label htmlFor="estado">Estado:</label>
-                <input type="text" id="estado" name="endereco.estado" value={formData.endereco.estado} onChange={handleInputChange} required />
-              </div>
-              <div className="modal-info">
-                <label htmlFor="cidade">Cidade:</label>
-                <input type="text" id="cidade" name="endereco.cidade" value={formData.endereco.cidade} onChange={handleInputChange} required />
-              </div>
-              <Button type="submit" variant="primary">Salvar Endereço</Button>
-            </form>
+  return loading ? (
+    <div className='d-flex justify-content-center mt-5'>
+      <ReactLoading type={"spin"} color={"black"} height={168} width={75} />
+    </div>
+  ) : (
+    <div className='container border p-3 mt-3 col-md-3 col-sm-12'>
+      <h2 className='mb-3 mt-2'>{id ? 'Editar' : 'Registrar'} Venda</h2>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="vendaForm.titulo">
+          <Form.Label>Título</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Digite o título do livro"
+            value={titulo}
+            required
+            onChange={(e) => setTitulo(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="vendaForm.preco">
+          <Form.Label>Preço</Form.Label>
+          <NumericFormat
+            prefix={"R$ "}
+            decimalScale={2}
+            placeholder="Valor estimado de venda"
+            className='form-control'
+            decimalSeparator=','
+            value={preco}
+            required
+            onValueChange={handlePrecoChange}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Modo de venda</Form.Label>
+          <div className='d-flex flex-row'>
+            <Form.Check
+              type="radio"
+              label="Sim"
+              name="vendaOnline"
+              value="Sim"
+              checked={vendaOnline === true}
+              onChange={handleVendaOnlineChange}
+              className='m-2'
+            />
+            <Form.Check
+              type="radio"
+              label="Não"
+              name="vendaOnline"
+              value="Não"
+              checked={vendaOnline === false}
+              onChange={handleVendaOnlineChange}
+              className='m-2'
+            />
           </div>
-        </div>
-      )}
+        </Form.Group>
+        <Button variant="primary" type="submit" className='col-12'>
+          {id ? 'Salvar Alterações' : 'Registrar Venda'}
+        </Button>
+      </Form>
+
+      <Modal show={isModalOpen} onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Endereço da Entrega</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="endereco.rua">
+              <Form.Label>Nome da Rua</Form.Label>
+              <Form.Control
+                type="text"
+                name="rua"
+                value={endereco.rua}
+                required
+                onChange={handleEnderecoChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="endereco.numero">
+              <Form.Label>Número</Form.Label>
+              <Form.Control
+                type="text"
+                name="numero"
+                value={endereco.numero}
+                required
+                onChange={handleEnderecoChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="endereco.cep">
+              <Form.Label>CEP</Form.Label>
+              <Form.Control
+                type="text"
+                name="cep"
+                value={endereco.cep}
+                required
+                onChange={handleEnderecoChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="endereco.bairro">
+              <Form.Label>Bairro</Form.Label>
+              <Form.Control
+                type="text"
+                name="bairro"
+                value={endereco.bairro}
+                required
+                onChange={handleEnderecoChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="endereco.estado">
+              <Form.Label>Estado</Form.Label>
+              <Form.Control
+                type="text"
+                name="estado"
+                value={endereco.estado}
+                required
+                onChange={handleEnderecoChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="endereco.cidade">
+              <Form.Label>Cidade</Form.Label>
+              <Form.Control
+                type="text"
+                name="cidade"
+                value={endereco.cidade}
+                required
+                onChange={handleEnderecoChange}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>
+            Fechar
+          </Button>
+          <Button variant="primary" onClick={closeModal}>
+            Salvar Endereço
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
-
-export default App;
-

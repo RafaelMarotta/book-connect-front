@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-
-function Index({ Component, pageProps }) {
+export default function Index() {
   const router = useRouter();
 
-  const handleLoadLoginPage = () => {
-    router.push("/login")
-  };
+  useEffect(() => {
+    router.push("/login");
+  }, [router]);
 
   return (
-    <div onLoad={handleLoadLoginPage()}>
-    </div>
+    <div></div>
   );
 }
-
-export default Index;

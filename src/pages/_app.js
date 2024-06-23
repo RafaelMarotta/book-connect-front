@@ -20,39 +20,37 @@ function MyApp({ Component, pageProps }) {
                 <title>BookConnect</title>
             </Head>
             {router.pathname !== '/login' && (
-            <Navbar bg="light" expand="lg" className="p-4 d-lg-flex book-navbar">
-                <Navbar.Brand href="/home"><Image src='/images/logoprincipal.png' /></Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav" className="d-lg-flex flex-grow-1">
-                    <Nav className="mr-auto"></Nav>
-                    <Form className="d-lg-flex justify-content-lg-center flex-grow-1" onSubmit={handleSearch}>
-                        <InputGroup className='w-50'>
-                            <FormControl
-                                type="text"
-                                placeholder="Buscar por livros por título, autor e palavras-chaves"
-                                aria-label="Search"
-                                style={{ paddingRight: '2.5rem' }}
-                            />
-                            <InputGroup.Text style={{
-                                position: 'absolute',
-                                right: '10px',
-                                zIndex: 10,
-                                border: 'none',
-                                background: 'none',
-                                color: '#495057'
-                            }}>
-                                <button type="submit" style={{ border: 'none', background: 'none' }}><FontAwesomeIcon icon={faSearch} /></button>
-                            </InputGroup.Text>
-                        </InputGroup>
-                    </Form>
-                    <Nav className="ml-auto">
-                        <Nav.Link href="/livros/trocas">Trocar Livro</Nav.Link>
-                        <Nav.Link href="/livros/vendas">Lançar Venda</Nav.Link>
-                        <Nav.Link href="/livros/cadastro">Cadastrar Livro</Nav.Link>
-                        <Nav.Link href="/contatos">Contatos</Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>)
+                <Navbar bg="light" expand="lg" className="p-4 d-lg-flex book-navbar">
+                    <Navbar.Brand href="/home"><Image src='/images/logoprincipal.png' /></Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav" className="d-lg-flex flex-grow-1">
+                        <Nav className="mr-auto"></Nav>
+                        <Form className="d-lg-flex justify-content-lg-center flex-grow-1" onSubmit={handleSearch}>
+                            <InputGroup className='w-50'>
+                                <FormControl
+                                    type="text"
+                                    placeholder="Buscar por livros por título, autor e palavras-chaves"
+                                    aria-label="Search"
+                                    style={{ paddingRight: '2.5rem' }}
+                                />
+                                <InputGroup.Text style={{
+                                    position: 'absolute',
+                                    right: '10px',
+                                    zIndex: 10,
+                                    border: 'none',
+                                    background: 'none',
+                                    color: '#495057'
+                                }}>
+                                    <button type="submit" style={{ border: 'none', background: 'none' }}><FontAwesomeIcon icon={faSearch} /></button>
+                                </InputGroup.Text>
+                            </InputGroup>
+                        </Form>
+                        <Nav className="ml-auto">
+                            <Nav.Link href="/livros/cadastro">Cadastrar Livro</Nav.Link>
+                            <Nav.Link href="/contatos">Contatos</Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>)
             }
             <main className='container-fluid'>
                 <Component {...pageProps} />
