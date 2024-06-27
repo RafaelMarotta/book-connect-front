@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Head from "next/head";
+import { useState } from 'react';
 import { Navbar, Nav, Form, InputGroup, FormControl, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -7,10 +8,11 @@ import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter();
+    const [searchText, setSearchText] = useState('');
 
     function handleSearch(event) {
         event.preventDefault(); // Prevents the default form submission
-        router.push('/home');
+        router.push(`/home?text=${encodeURIComponent(searchText)}`);
     }
 
     return (
@@ -31,6 +33,8 @@ function MyApp({ Component, pageProps }) {
                                     type="text"
                                     placeholder="Buscar por livros por título, autor e palavras-chaves"
                                     aria-label="Search"
+                                    value={searchText}
+                                    onChange={(e) => setSearchText(e.target.value)}
                                     style={{ paddingRight: '2.5rem' }}
                                 />
                                 <InputGroup.Text style={{
@@ -41,12 +45,16 @@ function MyApp({ Component, pageProps }) {
                                     background: 'none',
                                     color: '#495057'
                                 }}>
-                                    <button type="submit" style={{ border: 'none', background: 'none' }}><FontAwesomeIcon icon={faSearch} /></button>
+                                    <button type="submit" style={{ border: 'none', background: 'none' }}>
+                                        <FontAwesomeIcon icon={faSearch} />
+                                    </button>
                                 </InputGroup.Text>
                             </InputGroup>
                         </Form>
                         <Nav className="ml-auto">
                             <Nav.Link href="/livros/cadastro">Cadastrar Livro</Nav.Link>
+                            <Nav.Link href="/livros/vendas">Vendas</Nav.Link>
+                            <Nav.Link href="/livros/trocas">Trocas</Nav.Link>
                             <Nav.Link href="/contatos">Contatos</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>

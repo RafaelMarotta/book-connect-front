@@ -16,13 +16,15 @@ export default function Index() {
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+  }, [router.query.text]); // Re-fetch books when the text query changes
 
   const fetchBooks = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`https://book-connect-backend.vercel.app/api/livros`);
+      const text = router.query.text || '';
+      const response = await fetch(`https://book-connect-backend.vercel.app/api/livros?text=${encodeURIComponent(text)}`);
       const data = await response.json();
+      console.log(data)
 
       // Fetch images for each book
       const booksWithImages = await Promise.all(data.map(async (book) => {
@@ -49,11 +51,11 @@ export default function Index() {
   };
 
   const handleSellClick = (book) => {
-    router.push(`/livros/vendas?id_book=${book.id}`);
+    router.push(`/livros/vendas/cadastro?id_book=${book.id}`);
   };
 
   const handleExchangeClick = (book) => {
-    router.push(`/livros/trocas?id=${book.id}`);
+    router.push(`/livros/trocas/cadastro?id_livro_oferecido=${book.id}`);
   };
 
   const handleRemoveClick = (book) => {
@@ -105,10 +107,10 @@ export default function Index() {
           <Modal.Body>Você tem certeza que deseja deletar o livro?</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseModal}>
-              Cancel
+              Cancelar
             </Button>
             <Button variant="danger" onClick={confirmRemove}>
-              Delete
+              Deletar
             </Button>
           </Modal.Footer>
         </Modal>
