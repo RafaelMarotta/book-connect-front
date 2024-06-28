@@ -6,8 +6,9 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const validationErrors = {};
@@ -27,8 +28,26 @@ function Login() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      console.log('Login successful!');
-      href="/index"; //voltar a home
+      try {
+        const response = await fetch('http://localhost:5000/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setMessage(data.message);
+          // Redirecionar para a página inicial
+          window.location.href = '/index';
+        } else {
+          setMessage(data.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setMessage('An error occurred. Please try again.');
+      }
     }
   };
 
@@ -60,20 +79,22 @@ function Login() {
           {errors.password && <p className="error-message">{errors.password}</p>}
         </div>
         <h6>
-        <a href="/pages/cadastro.js">Esqueceu sua senha?</a>
-      </h6>
-        <button type="submit" href="/pages/index" className="login-button">
+          <a href="/pages/cadastro.js">Esqueceu sua senha?</a>
+        </h6>
+        <button type="submit" className="login-button">
           Entrar
         </button>
       </form>
       <p>ou</p>
-      <div class="create-account-link">
-      <a href="cadastro.html">Ainda não tem conta? Crie sua conta</a>
-    </div>
+      <div className="create-account-link">
+        <a href="cadastro.html">Ainda não tem conta? Crie sua conta</a>
+      </div>
+      {message && <p className="message">{message}</p>}
     </div>
   );
 }
 
 export default Login;
+
 
 
