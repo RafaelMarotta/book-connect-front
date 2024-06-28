@@ -75,10 +75,10 @@ export default function Vendas() {
                             {vendas.map((venda) => (
                                 <tr key={venda.id}>
                                     <td>{venda.titulo}</td>
-                                    <td>{venda.valor}</td>
+                                    <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(venda.valor)}</td>
                                     <td>{new Date(venda.data_venda).toLocaleString()}</td>
                                     <td>{venda.delivery ? 'Sim' : 'Não'}</td>
-                                    <td>{venda.valor_frete}</td>
+                                    <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(venda.valor_frete)}</td>
                                     <td>{venda.cep}</td>
                                     <td>{venda.estado}</td>
                                     <td>{venda.cidade}</td>

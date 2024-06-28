@@ -12,6 +12,7 @@ export default function VendasCadastro() {
   const [titulo, setTitulo] = useState('');
   const [preco, setPreco] = useState('');
   const [vendaOnline, setVendaOnline] = useState(false);
+  const [valorFrete, setValorFrete] = useState('')
   const [endereco, setEndereco] = useState({
     rua: '',
     numero: '',
@@ -46,6 +47,11 @@ export default function VendasCadastro() {
   const handlePrecoChange = (values) => {
     const { value } = values;
     setPreco(value);
+  };
+
+  const handleValorFreteChange = (values) => {
+    const { value } = values;
+    setValorFrete(value);
   };
 
   const handleVendaOnlineChange = (event) => {
@@ -111,7 +117,7 @@ export default function VendasCadastro() {
         cliente_id: null, // Ou um valor válido se necessário
         data_venda: formatDateForMySQL(new Date()),
         delivery: vendaOnline,
-        valor_frete: vendaOnline ? 10.00 : 0.00, // Substitua pelo valor correto do frete
+        valor_frete: vendaOnline ? valorFrete : 0.00, // Substitua pelo valor correto do frete
         endereco_id: vendaOnline ? enderecoId : null,
         livro_id: id_book // Inclua o livro_id
       };
@@ -191,6 +197,19 @@ export default function VendasCadastro() {
               className='m-2'
             />
           </div>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="vendaForm.valor_frete" hidden={!vendaOnline}>
+          <Form.Label>Valor frete</Form.Label>
+          <NumericFormat
+            prefix={"R$ "}
+            decimalScale={2}
+            placeholder="Valor de frete"
+            className='form-control'
+            decimalSeparator=','
+            value={valorFrete}
+            required
+            onValueChange={handleValorFreteChange}
+          />
         </Form.Group>
         <Button variant="primary" type="submit" className='col-12'>
           {id ? 'Salvar Alterações' : 'Registrar Venda'}
