@@ -63,6 +63,11 @@ export default function Vendas() {
                                 <th scope="col">Data Venda</th>
                                 <th scope="col">Delivery</th>
                                 <th scope="col">Valor Frete</th>
+                                <th scope="col">CEP</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Cidade</th>
+                                <th scope="col">Bairro</th>
+                                <th scope="col">Numero</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -71,10 +76,14 @@ export default function Vendas() {
                                 <tr key={venda.id}>
                                     <td>{venda.titulo}</td>
                                     <td>{venda.valor}</td>
-                                    <td>{venda.cliente_id || 'N/A'}</td>
                                     <td>{new Date(venda.data_venda).toLocaleString()}</td>
                                     <td>{venda.delivery ? 'Sim' : 'Não'}</td>
                                     <td>{venda.valor_frete}</td>
+                                    <td>{venda.cep}</td>
+                                    <td>{venda.estado}</td>
+                                    <td>{venda.cidade}</td>
+                                    <td>{venda.bairro}</td>
+                                    <td>{venda.numero}</td>
                                     <td>
                                         <FontAwesomeIcon
                                             icon={faTrashAlt}
