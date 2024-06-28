@@ -20,6 +20,7 @@ export default function VendasCadastro() {
     estado: '',
     cidade: '',
   });
+  const [enderecoId, setEnderecoId] = useState(null);
 
   useEffect(() => {
     // Fetch existing book details if id_book is present
@@ -67,7 +68,26 @@ export default function VendasCadastro() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setVendaOnline(false);
+  };
+
+  const saveEnderecoAndCloseModal = async () => {
+    try {
+      const response = await fetch('https://book-connect-backend.vercel.app/api/enderecos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(endereco),
+      });
+      if (!response.ok) {
+        throw new Error('Erro ao salvar o endereço');
+      }
+      const result = await response.json();
+      setEnderecoId(result.id);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Erro ao salvar o endereço:', error);
+    }
   };
 
   const formatDateForMySQL = (date) => {
@@ -85,38 +105,38 @@ export default function VendasCadastro() {
     e.preventDefault();
     setLoading(true);
 
-    const formData = {
+    try {
+      const formData = {
         valor: parseFloat(preco),
         cliente_id: null, // Ou um valor válido se necessário
         data_venda: formatDateForMySQL(new Date()),
         delivery: vendaOnline,
         valor_frete: vendaOnline ? 10.00 : 0.00, // Substitua pelo valor correto do frete
-        endereco_id: null, // Ou um valor válido se necessário
+        endereco_id: vendaOnline ? enderecoId : null,
         livro_id: id_book // Inclua o livro_id
-    };
+      };
 
-    try {
-        const response = await fetch('https://book-connect-backend.vercel.app/api/vendas', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        });
+      const response = await fetch('https://book-connect-backend.vercel.app/api/vendas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-        if (!response.ok) {
-            throw new Error('Erro ao registrar a venda');
-        }
+      if (!response.ok) {
+        throw new Error('Erro ao registrar a venda');
+      }
 
-        const result = await response.json();
-        console.log('Venda registrada com sucesso:', result);
-        router.push('/livros/vendas'); // Redirecionar para a página de vendas
+      const result = await response.json();
+      console.log('Venda registrada com sucesso:', result);
+      router.push('/livros/vendas'); // Redirecionar para a página de vendas
     } catch (error) {
-        console.error('Erro ao registrar a venda:', error);
+      console.error('Erro ao registrar a venda:', error);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
+  };
 
   return loading ? (
     <div className='d-flex justify-content-center mt-5'>
@@ -249,7 +269,7 @@ export default function VendasCadastro() {
           <Button variant="secondary" onClick={closeModal}>
             Fechar
           </Button>
-          <Button variant="primary" onClick={closeModal}>
+          <Button variant="primary" onClick={saveEnderecoAndCloseModal}>
             Salvar Endereço
           </Button>
         </Modal.Footer>

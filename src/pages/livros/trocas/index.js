@@ -8,6 +8,7 @@ export default function Trocas() {
     const [trocas, setTrocas] = useState([]);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
+    console.log(trocas)
 
     useEffect(() => {
         const fetchTrocas = async () => {
@@ -43,47 +44,43 @@ export default function Trocas() {
     };
 
     return loading ? (
-            <div className='d-flex justify-content-center mt-5'>
-                <ReactLoading type={"spin"} color={"black"} height={168} width={75} />
-            </div>
-        ) : (
+        <div className='d-flex justify-content-center mt-5'>
+            <ReactLoading type={"spin"} color={"black"} height={168} width={75} />
+        </div>
+    ) : (
         <div className="container m-3 p-3">
-                <div className="row">
-                    <div className="col-sm-12">
-                        <table id="table-trocas" className="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Data</th>
-                                    <th scope="col">Livro Oferecido ID</th>
-                                    <th scope="col">Livro Doado ID</th>
-                                    <th scope="col">Contato ID</th>
-                                    <th scope="col">Ações</th>
+            <div className="row">
+                <div className="col-sm-12">
+                    <table id="table-trocas" className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Livro Oferecido</th>
+                                <th scope="col">Livro Doado</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {trocas.map((troca) => (
+                                <tr key={troca.id}>
+                                    <td>{troca.livro_oferecido}</td>
+                                    <td>{troca.livro_doado}</td>
+                                    <td>{new Date(troca.data).toLocaleString()}</td>
+                                    <td>
+                                        <FontAwesomeIcon
+                                            icon={faTrashAlt}
+                                            color='red'
+                                            className='pointer'
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => handleDelete(troca.id)}
+                                        />
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {trocas.map((troca) => (
-                                    <tr key={troca.id}>
-                                        <td>{troca.id}</td>
-                                        <td>{new Date(troca.data).toLocaleString()}</td>
-                                        <td>{troca.livro_oferecido_id}</td>
-                                        <td>{troca.livro_doado_id}</td>
-                                        <td>{troca.contato_id || 'N/A'}</td>
-                                        <td>
-                                            <FontAwesomeIcon
-                                                icon={faTrashAlt}
-                                                color='red'
-                                                className='pointer'
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => handleDelete(troca.id)}
-                                            />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
+            </div>
         </div >
     );
 }

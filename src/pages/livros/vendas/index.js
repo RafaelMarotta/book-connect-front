@@ -14,6 +14,7 @@ export default function Vendas() {
             try {
                 const response = await fetch('https://book-connect-backend.vercel.app/api/vendas');
                 const data = await response.json();
+                console.log(data)
                 setVendas(data);
             } catch (error) {
                 console.error('Erro ao buscar vendas:', error);
@@ -57,26 +58,23 @@ export default function Vendas() {
                     <table id="table-vendas" className="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">Livro</th>
                                 <th scope="col">Valor</th>
-                                <th scope="col">Cliente ID</th>
                                 <th scope="col">Data Venda</th>
                                 <th scope="col">Delivery</th>
                                 <th scope="col">Valor Frete</th>
-                                <th scope="col">Endereço ID</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             {vendas.map((venda) => (
                                 <tr key={venda.id}>
-                                    <td>{venda.id}</td>
+                                    <td>{venda.titulo}</td>
                                     <td>{venda.valor}</td>
                                     <td>{venda.cliente_id || 'N/A'}</td>
                                     <td>{new Date(venda.data_venda).toLocaleString()}</td>
                                     <td>{venda.delivery ? 'Sim' : 'Não'}</td>
                                     <td>{venda.valor_frete}</td>
-                                    <td>{venda.endereco_id || 'N/A'}</td>
                                     <td>
                                         <FontAwesomeIcon
                                             icon={faTrashAlt}

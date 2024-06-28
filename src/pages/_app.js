@@ -55,7 +55,6 @@ function MyApp({ Component, pageProps }) {
                             <Nav.Link href="/livros/cadastro">Cadastrar Livro</Nav.Link>
                             <Nav.Link href="/livros/vendas">Vendas</Nav.Link>
                             <Nav.Link href="/livros/trocas">Trocas</Nav.Link>
-                            <Nav.Link href="/contatos">Contatos</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>)
